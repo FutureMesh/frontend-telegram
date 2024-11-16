@@ -12,17 +12,21 @@ const endpoints = {
   },
 };
 
-const staticApi = staticConnect(API_URL);
-const api = scaffold(API_URL, 'rest')(endpoints);
+(async () => {
+  const api = await scaffold(API_URL, 'rest')(endpoints);
+  const staticApi = staticConnect(API_URL);
 
-const bot = new Telegraf(process.env.BOT_TOKEN);
-bot.use(session());
+  const bot = new Telegraf(process.env.BOT_TOKEN);
+  bot.use(session());
 
-bot.start((ctx) => {
-  new Form(bot, ctx, api, staticApi);
-});
-bot.launch();
+  bot.start((ctx) => {
+    new Form({ bot, ctx, api, staticApi });
+  });
+  bot.launch();
 
-// Enable graceful stop
-process.once('SIGINT', () => bot.stop('SIGINT'));
-process.once('SIGTERM', () => bot.stop('SIGTERM'));
+  console.log('Listening on ' + process.env.BOT_TOKEN);
+
+  // Enable graceful stop
+  process.once('SIGINT', () => bot.stop('SIGINT'));
+  process.once('SIGTERM', () => bot.stop('SIGTERM'));
+})();
