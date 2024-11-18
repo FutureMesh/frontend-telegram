@@ -8,7 +8,7 @@ dotenv.config();
 const API_URL = process.env.API_URL;
 const endpoints = {
   ai: {
-    ask: 'post',
+    predict: 'post',
   },
 };
 
@@ -19,9 +19,7 @@ const endpoints = {
   const bot = new Telegraf(process.env.BOT_TOKEN);
   bot.use(session());
 
-  bot.start((ctx) => {
-    new Form({ bot, ctx, api, staticApi });
-  });
+  bot.start((ctx) => new Form({ bot, ctx, api, staticApi }));
   bot.launch();
 
   console.log('Listening on ' + process.env.BOT_TOKEN);
