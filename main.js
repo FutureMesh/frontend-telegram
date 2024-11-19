@@ -3,7 +3,7 @@
 const { Telegraf, session } = require('telegraf');
 const { scaffold, staticApi: staticConnect } = require('./lib/connect');
 const dotenv = require('dotenv');
-const Form = require('./lib/form');
+const ChatBot = require('./lib/chatbot');
 dotenv.config();
 const API_URL = process.env.API_URL;
 const endpoints = {
@@ -13,13 +13,15 @@ const endpoints = {
 };
 
 (async () => {
+  // bag when i finished my form and want to start new
   const api = await scaffold(API_URL, 'rest')(endpoints);
   const staticApi = staticConnect(API_URL);
 
   const bot = new Telegraf(process.env.BOT_TOKEN);
   bot.use(session());
 
-  bot.start((ctx) => new Form({ bot, ctx, api, staticApi }));
+  bot.command('start', (ctx) => new ChatBot({ ctx, api, staticApi, bot }));
+
   bot.launch();
 
   console.log('Listening on ' + process.env.BOT_TOKEN);
