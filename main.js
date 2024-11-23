@@ -1,6 +1,6 @@
 'use strict';
 
-const { Telegraf, session } = require('telegraf');
+const { Telegraf, Scenes, session } = require('telegraf');
 const { scaffold, staticApi: staticConnect } = require('./lib/connect');
 const dotenv = require('dotenv');
 const ChatBot = require('./lib/chatbot');
@@ -13,17 +13,29 @@ const endpoints = {
 };
 
 (async () => {
-  // bag when i finished my form and want to start new
   const api = await scaffold(API_URL, 'rest')(endpoints);
   const staticApi = staticConnect(API_URL);
 
   const bot = new Telegraf(process.env.BOT_TOKEN);
-  bot.use(session());
+  const formScene = new Scenes.BaseScene('form');
+  const chatBot = new ChatBot({ api, staticApi });
+  formScene.enter(async (ctx) => {
+    await chatBot.start(ctx);
+  });
+  formScene.leave(async (ctx) => await ctx.reply('Bye!'));
+  const listener = async (ctx) => {
+    await chatBot.handleField(ctx);
+  };
+  formScene.on('text', listener);
+  formScene.on('message', listener);
+  const stage = new Scenes.Stage([formScene]);
 
-  bot.command('start', (ctx) => new ChatBot({ ctx, api, staticApi, bot }));
+  bot.use(session());
+  bot.use(stage.middleware());
+
+  bot.command('start', async (ctx) => await ctx.scene.enter('form'));
 
   bot.launch();
-
   console.log('Listening on ' + process.env.BOT_TOKEN);
 
   // Enable graceful stop
