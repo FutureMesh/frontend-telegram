@@ -1,0 +1,29 @@
+{
+  "english": {
+    "welcome": "Hello, welcome to the ",
+    "please_answer": "Please answer the following questions:",
+    "wait_moment": "Wait a moment...",
+    "choose_one": " Choose one:",
+    "choose_options": "Please choose one of the options",
+    "bye": "Bye!",
+    "done": "done!"
+  },
+  "russian": {
+    "welcome": "Здравствуйте, добро пожаловать в ",
+    "please_answer": "Пожалуйста, ответьте на следующие вопросы:",
+    "wait_moment": "Подождите минуту...",
+    "choose_one": " Выберите один:",
+    "choose_options": "Пожалуйста, выберите один из вариантов",
+    "bye": "До свидания!",
+    "done": "готово!"
+  },
+  "ukrainian": {
+    "welcome": "Привіт, ласкаво просимо до ",
+    "please_answer": "Будь ласка, відповідайте на наступні запитання:",
+    "wait_moment": "Зачекайте хвилинку...",
+    "choose_one": " Виберіть один:",
+    "choose_options": "Будь ласка, виберіть один з варіантів",
+    "bye": "До побачення!",
+    "done": "готово!"
+  }
+}
