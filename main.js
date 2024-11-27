@@ -13,6 +13,9 @@ const endpoints = {
   },
 };
 
+// TODO //
+// - remove cohesion between ChatBot and Telegraf
+
 (async () => {
   const api = await scaffold(API_URL, 'rest')(endpoints);
   const staticApi = staticConnect(API_URL);
@@ -22,12 +25,10 @@ const endpoints = {
   const chatBot = new ChatBot({ api, staticApi });
 
   formScene.enter(async (ctx) => await chatBot.start(ctx));
-
   const listener = async (ctx) => await chatBot.handleField(ctx);
   formScene.on('text', listener);
   formScene.on('message', listener);
   const stage = new Scenes.Stage([formScene]);
-  formScene.command('leave', async (ctx) => await ctx.scene.leave());
 
   bot.use(session());
   bot.use((ctx, next) => {
@@ -37,13 +38,26 @@ const endpoints = {
   });
   bot.use(stage.middleware());
 
-  bot.command('start', async (ctx) => await ctx.scene.enter('form'));
-  bot.command('language', (ctx) => {
-    const languagesMarkups = Object.keys(languages).map((name) =>
-      Markup.button.callback(name, name),
-    );
-    ctx.reply('Choose', Markup.inlineKeyboard(languagesMarkups).oneTime());
-  });
+  const commands = [
+    {
+      command: 'start',
+      action: async (ctx) => await ctx.scene.enter('form'),
+      description: 'Start command',
+    },
+    {
+      command: 'language',
+      action: (ctx) => {
+        const languagesMarkups = Object.keys(languages).map((name) =>
+          Markup.button.callback(name, name),
+        );
+        ctx.reply('Choose', Markup.inlineKeyboard(languagesMarkups).oneTime());
+      },
+      description: 'Language command',
+    },
+  ];
+
+  bot.telegram.setMyCommands(commands);
+  commands.forEach((command) => bot.command(command.command, command.action));
 
   Object.keys(languages).forEach((lang) => {
     bot.action(lang, async (ctx) => {
