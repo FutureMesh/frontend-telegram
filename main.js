@@ -76,6 +76,10 @@ const endpoints = {
   process.once('SIGINT', () => bot.stop('SIGINT'));
   process.once('SIGTERM', () => bot.stop('SIGTERM'));
 
-  const server = http.createServer();
-  server.listen(8080, '0.0.0.0');
+  http
+    .createServer((req, res) => {
+      res.write('Hello World!'); //write a response to the client
+      res.end(); //end the response
+    })
+    .listen(8080, '0.0.0.0');
 })();
