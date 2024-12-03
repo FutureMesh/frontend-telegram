@@ -5,7 +5,6 @@ const { scaffold, staticApi: staticConnect } = require('./lib/connect');
 const languages = require('./static/languages.json');
 const dotenv = require('dotenv');
 const ChatBot = require('./lib/chatbot');
-const http = require('http');
 dotenv.config();
 const API_URL = process.env.API_URL;
 const endpoints = {
@@ -75,11 +74,4 @@ const endpoints = {
   // Enable graceful stop
   process.once('SIGINT', () => bot.stop('SIGINT'));
   process.once('SIGTERM', () => bot.stop('SIGTERM'));
-
-  http
-    .createServer((req, res) => {
-      res.write('Hello World!'); //write a response to the client
-      res.end(); //end the response
-    })
-    .listen(8080, '0.0.0.0');
 })();
