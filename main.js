@@ -15,6 +15,7 @@ const endpoints = {
 
 // TODO //
 // - remove cohesion between ChatBot and Telegraf
+// deploy
 
 (async () => {
   const api = await scaffold(API_URL, 'rest')(endpoints);
