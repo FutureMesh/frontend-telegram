@@ -64,7 +64,6 @@ const endpoints = {
     bot.action(lang, async (ctx) => {
       if (!ctx.session) ctx.session = {};
       ctx.session.lang = lang;
-      console.log(ctx.session);
       await ctx.reply(languages[lang].done);
     });
   });
