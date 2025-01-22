@@ -18,6 +18,8 @@ const endpoints = {
 // deploy
 
 (async () => {
+  let visitedCount = 0;
+  let usersCount = 0;
   const api = await scaffold(API_URL, 'rest')(endpoints);
   const staticApi = staticConnect(API_URL);
 
@@ -33,7 +35,11 @@ const endpoints = {
 
   bot.use(session());
   bot.use((ctx, next) => {
-    if (!ctx.session) ctx.session = {};
+    if (!ctx.session) {
+      console.clear();
+      console.log(`Visited: ${visitedCount++} \n usersCount: ${usersCount}`);
+      ctx.session = {};
+    }
     if (!ctx.session.lang) ctx.session.lang = 'ukrainian';
     return next();
   });
@@ -42,7 +48,11 @@ const endpoints = {
   const commands = [
     {
       command: 'start',
-      action: async (ctx) => await ctx.scene.enter('form'),
+      action: async (ctx) => {
+        console.clear();
+        console.log(`Visited: ${visitedCount} \n usersCount: ${usersCount++}`);
+        await ctx.scene.enter('form');
+      },
       description: 'Start command',
     },
     {
