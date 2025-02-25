@@ -15,6 +15,7 @@ const endpoints = {
 
 // TODO //
 // - remove cohesion between ChatBot and Telegraf
+// rewrite static to use camelcase
 // deploy
 
 (async () => {
@@ -26,11 +27,17 @@ const endpoints = {
   const bot = new Telegraf(process.env.BOT_TOKEN);
   const formScene = new Scenes.BaseScene('form');
   const chatBot = new ChatBot({ api, staticApi });
+  // eslint-disable-next-line camelcase
+  const options = { reply_markup: { remove_keyboard: true } };
 
   formScene.enter(async (ctx) => await chatBot.start(ctx));
   const listener = async (ctx) => await chatBot.handleField(ctx);
   formScene.on('text', listener);
   formScene.on('message', listener);
+  formScene.leave(async (ctx) => {
+    await ctx.reply(languages[ctx.session.lang].leave, options);
+    await ctx.reply(languages[ctx.session.lang].help);
+  });
   const stage = new Scenes.Stage([formScene]);
 
   bot.use(session());
@@ -64,6 +71,13 @@ const endpoints = {
         ctx.reply('Choose', Markup.inlineKeyboard(languagesMarkups).oneTime());
       },
       description: 'Language command',
+    },
+    {
+      command: 'help',
+      action: async (ctx) => {
+        await ctx.reply(languages[ctx.session.lang].getHelp);
+      },
+      description: 'Help command',
     },
   ];
 
