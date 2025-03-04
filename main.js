@@ -19,8 +19,8 @@ const endpoints = {
 // deploy
 
 (async () => {
-  let visitedCount = 0;
-  let usersCount = 0;
+  const visited = { ukrainian: 0, english: 0, russian: 0 };
+  const usersCount = 0;
   const api = await scaffold(API_URL, 'rest')(endpoints);
   const staticApi = staticConnect(API_URL);
 
@@ -44,7 +44,11 @@ const endpoints = {
   bot.use((ctx, next) => {
     if (!ctx.session) {
       console.clear();
-      console.log(`Visited: ${visitedCount++} \n usersCount: ${usersCount}`);
+      visited[ctx.session.lang] += 1;
+      for (const [lang, count] of Object.entries(visited)) {
+        console.log(`${lang}: ${count}`);
+      }
+      console.log(`usersCount: ${usersCount}`);
       ctx.session = {};
     }
     if (!ctx.session.lang) ctx.session.lang = 'ukrainian';
@@ -57,7 +61,11 @@ const endpoints = {
       command: 'start',
       action: async (ctx) => {
         console.clear();
-        console.log(`Visited: ${visitedCount} \n usersCount: ${usersCount++}`);
+        visited[ctx.session.lang] += 1;
+        for (const [lang, count] of Object.entries(visited)) {
+          console.log(`${lang}: ${count}`);
+        }
+        console.log(`usersCount: ${usersCount}`);
         await ctx.scene.enter('form');
       },
       description: 'Start command',
