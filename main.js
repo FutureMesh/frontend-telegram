@@ -44,7 +44,7 @@ const endpoints = {
   bot.use((ctx, next) => {
     if (!ctx.session) {
       console.clear();
-      visited[ctx.session.lang] += 1;
+      visited[ctx.session.lang.name] += 1;
       for (const [lang, count] of Object.entries(visited)) {
         console.log(`${lang}: ${count}`);
       }
@@ -61,7 +61,7 @@ const endpoints = {
       command: 'start',
       action: async (ctx) => {
         console.clear();
-        visited[ctx.session.lang] += 1;
+        visited[ctx.session.lang.name] += 1;
         for (const [lang, count] of Object.entries(visited)) {
           console.log(`${lang}: ${count}`);
         }
