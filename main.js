@@ -51,7 +51,7 @@ const endpoints = {
   bot.use(session());
   bot.use((ctx, next) => {
     if (!ctx.session) ctx.session = {};
-    if (!ctx.session.lang) ctx.session.lang = 'ukrainian';
+    if (!ctx.session.lang) ctx.session.lang = languages.ukrainian;
     visited[ctx.session.lang.name] += 1;
     logStatics();
     return next();
