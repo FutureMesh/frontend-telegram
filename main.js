@@ -40,18 +40,20 @@ const endpoints = {
   });
   const stage = new Scenes.Stage([formScene]);
 
+  const logStatics = () => {
+    console.clear();
+    for (const [lang, count] of Object.entries(visited)) {
+      console.log(`${lang}: ${count}`);
+    }
+    console.log(`usersCount: ${usersCount}`);
+  };
+
   bot.use(session());
   bot.use((ctx, next) => {
-    if (!ctx.session) {
-      console.clear();
-      visited[ctx.session.lang.name] += 1;
-      for (const [lang, count] of Object.entries(visited)) {
-        console.log(`${lang}: ${count}`);
-      }
-      console.log(`usersCount: ${usersCount}`);
-      ctx.session = {};
-    }
+    if (!ctx.session) ctx.session = {};
     if (!ctx.session.lang) ctx.session.lang = 'ukrainian';
+    visited[ctx.session.lang.name] += 1;
+    logStatics();
     return next();
   });
   bot.use(stage.middleware());
@@ -62,10 +64,7 @@ const endpoints = {
       action: async (ctx) => {
         console.clear();
         visited[ctx.session.lang.name] += 1;
-        for (const [lang, count] of Object.entries(visited)) {
-          console.log(`${lang}: ${count}`);
-        }
-        console.log(`usersCount: ${usersCount}`);
+        logStatics();
         await ctx.scene.enter('form');
       },
       description: 'Start command',
@@ -94,7 +93,9 @@ const endpoints = {
 
   Object.keys(languages).forEach((lang) => {
     bot.action(lang, async (ctx) => {
-      if (!ctx.session) ctx.session = {};
+      visited[lang] += 1;
+      visited[ctx.session.lang.name] -= 1;
+      logStatics();
       ctx.session.lang = lang;
       await ctx.reply(languages[lang].done);
     });
