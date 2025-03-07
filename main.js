@@ -35,8 +35,8 @@ const endpoints = {
   formScene.on('text', listener);
   formScene.on('message', listener);
   formScene.leave(async (ctx) => {
-    await ctx.reply(languages[ctx.session.lang].leave, options);
-    await ctx.reply(languages[ctx.session.lang].help);
+    await ctx.reply(ctx.session.lang.leave, options);
+    await ctx.reply(ctx.session.lang.help);
   });
   const stage = new Scenes.Stage([formScene]);
 
@@ -82,7 +82,7 @@ const endpoints = {
     {
       command: 'help',
       action: async (ctx) => {
-        await ctx.reply(languages[ctx.session.lang].getHelp);
+        await ctx.reply(ctx.session.lang.getHelp);
       },
       description: 'Help command',
     },
@@ -93,11 +93,8 @@ const endpoints = {
 
   Object.keys(languages).forEach((lang) => {
     bot.action(lang, async (ctx) => {
-      visited[lang] += 1;
-      visited[ctx.session.lang.name] -= 1;
-      logStatics();
-      ctx.session.lang = lang;
-      await ctx.reply(languages[lang].done);
+      ctx.session.lang = languages[lang];
+      await ctx.reply(ctx.session.lang.done);
     });
   });
 

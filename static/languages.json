@@ -1,5 +1,6 @@
 {
   "english": {
+    "name": "english",
     "publicity": "Your amazing ad could be here! 🌟",
     "welcome": "Hi there! We're thrilled to have you with us! 😊",
     "please_answer": "Want to exit the process? Just type: /stop \n You can switch the language anytime with the command: /language \n Let's get started! Please answer the next questions with a smile! 😄",
@@ -13,6 +14,7 @@
     "getHelp": "Here is how we can help you: \n\n1. /start - Start the conversation \n2. /stop - Exit the conversation \n3. /language - Change the language \n4. /help - Get help"
   },
   "russian": {
+    "name": "russian",
     "publicity": "Ваша реклама могла бы быть здесь! 🌟",
     "welcome": "Привет! Мы рады, что вы с нами! 😊",
     "please_answer": "Хотите выйти из процесса? Просто введите: /stop \n Вы можете поменять язык в любой момент с помощью команды: /language \n Давайте начнем! Ответьте на вопросы с улыбкой! 😄",
@@ -26,6 +28,7 @@
     "getHelp": "Здесь все, что может тебе помочь: \n\n1. /start - Начать разговор \n2. /stop - Завершить разговор \n3. /language - Изменить язык \n4. /help - Получить помощь"
   },
   "ukrainian": {
+    "name": "ukrainian",
     "publicity": "Ваша реклама може бути тут! 🌟",
     "welcome": "Вітаємо! Ми раді бачити вас тут! 😊",
     "please_answer": "Хочете завершити процес? Просто наберіть: /stop \n Ви можете змінити мову будь-коли за допомогою команди: /language \n Давайте почнемо! Відповідайте на питання з посмішкою! 😄",
