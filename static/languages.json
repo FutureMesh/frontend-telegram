@@ -1,5 +1,6 @@
 {
   "english": {
+    "furtherQuestion": "Ask me whatever you want if you would like to know more about your future or have some tips! 😉 \n Or you can leave this dialog using /stop",
     "name": "english",
     "publicity": "Your amazing ad could be here! 🌟",
     "welcome": "Hi there! We're thrilled to have you with us! 😊",
@@ -14,6 +15,7 @@
     "getHelp": "Here is how we can help you: \n\n1. /start - Start the conversation \n2. /stop - Exit the conversation \n3. /language - Change the language \n4. /help - Get help"
   },
   "russian": {
+    "furtherQuestion": "Ты так же можешь задать мне любой вопрос о твоем будущем, а так получить советы или мотивацию! 😉 \n Или ты можешь просто покинуть этот диалог /stop",
     "name": "russian",
     "publicity": "Ваша реклама могла бы быть здесь! 🌟",
     "welcome": "Привет! Мы рады, что вы с нами! 😊",
@@ -28,6 +30,7 @@
     "getHelp": "Здесь все, что может тебе помочь: \n\n1. /start - Начать разговор \n2. /stop - Завершить разговор \n3. /language - Изменить язык \n4. /help - Получить помощь"
   },
   "ukrainian": {
+    "furtherQuestion": "Ти так само можеш поставити мені будь-яке питання про твоє майбутнє, а так отримати поради чи мотивацію! 😉 \n Або ти можеш просто покинути цей діалог /stop",
     "name": "ukrainian",
     "publicity": "Ваша реклама може бути тут! 🌟",
     "welcome": "Вітаємо! Ми раді бачити вас тут! 😊",

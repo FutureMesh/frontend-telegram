@@ -10,6 +10,8 @@ const API_URL = process.env.API_URL;
 const endpoints = {
   ai: {
     predict: 'post',
+    ask: 'post',
+    leave: 'post',
   },
 };
 
@@ -30,15 +32,25 @@ const endpoints = {
   // eslint-disable-next-line camelcase
   const options = { reply_markup: { remove_keyboard: true } };
 
+  const stage = new Scenes.Stage([formScene]);
   formScene.enter(async (ctx) => await chatBot.start(ctx));
   const listener = async (ctx) => await chatBot.handleField(ctx);
   formScene.on('text', listener);
   formScene.on('message', listener);
   formScene.leave(async (ctx) => {
+    ctx.session.test = [];
+    ctx.session.form = '';
+    await api.ai.leave({ token: ctx.from.id });
     await ctx.reply(ctx.session.lang.leave, options);
     await ctx.reply(ctx.session.lang.help);
   });
-  const stage = new Scenes.Stage([formScene]);
+  stage.command('stop', async (ctx) => await ctx.scene.leave());
+  stage.command('language', async (ctx) => {
+    const languagesMarkups = Object.keys(languages).map((name) =>
+      Markup.button.callback(name, name),
+    );
+    ctx.reply('Choose', Markup.inlineKeyboard(languagesMarkups).oneTime());
+  });
 
   const logStatics = () => {
     console.clear();
@@ -95,6 +107,7 @@ const endpoints = {
     bot.action(lang, async (ctx) => {
       ctx.session.lang = languages[lang];
       await ctx.reply(ctx.session.lang.done);
+      if (ctx.session.test && ctx.session.test.length) await chatBot.start(ctx);
     });
   });
 
